@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({itemsInCart}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -119,7 +119,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-      <CartWidget itemsInCart="2"/>
+      <CartWidget itemsInCart={itemsInCart}/>
         <p>Items in cart</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -171,7 +171,7 @@ export default function PrimarySearchAppBar() {
             <Sections/>
             </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <CartWidget itemsInCart="2" />
+          <CartWidget itemsInCart={itemsInCart} />
             <IconButton
               size="large"
               edge="end"
