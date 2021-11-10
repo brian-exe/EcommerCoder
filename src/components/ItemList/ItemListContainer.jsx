@@ -3,13 +3,9 @@ import Item from '../ItemList/Item'
 
 export default function ItemListContainer({itemsInCart, setItemsInCart}){
   const handleAdd = function(itemCount, itemId){
-    console.log(itemCount, itemId)
     let item =items.find(i => i.id === itemId);
-    console.log(item)
     if(item)
       setItemsInCart(itemsInCart + itemCount)
-    //item.stock = item.stock - itemCount;
-    console.log(item)
   };
 
   const items = [
