@@ -4,10 +4,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@material-ui/core';
-import { Box } from '@mui/material';
+import { CardMedia } from '@mui/material';
 import ItemCounter from './ItemCounter.jsx';
 
-export default function Item({id, title, price,stock, handleAdd}){
+export default function Item({id, title, price,stock, img, handleAdd}){
     const [myStock, setMyStock] = useState(stock);
 
     const itemOnAdd = function(count){
@@ -17,17 +17,12 @@ export default function Item({id, title, price,stock, handleAdd}){
     return(
     <Card variant="outlined" sx={{ maxWidth: 345 }}>
       <CardContent>
-        <Box
-        sx={{
-            width: 200,
-            height: 200,
-            backgroundColor: 'primary.dark',
-            '&:hover': {
-            backgroundColor: 'primary.main',
-            opacity: [0.9, 0.8, 0.7],
-            },
-        }}
-        />
+      <CardMedia
+        component="img"
+        height="140"
+        image={img || "https://image.shutterstock.com/image-photo/no-photo-600w-403171300.jpg"}
+        alt={title}
+      />
          <Typography gutterBottom variant="h5" component="div">
           {title} (Stock: {myStock})
         </Typography>
