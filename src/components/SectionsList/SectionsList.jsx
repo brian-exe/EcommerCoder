@@ -4,6 +4,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Link } from "react-router-dom";
+
 
 export default function FadeMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,7 +41,9 @@ export default function FadeMenu() {
         TransitionComponent={Fade}
       >
         <MenuItem onClick={handleClose}>Index</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <Link to={`/ItemDetail/`}>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+        </Link>
         <MenuItem onClick={handleClose}>About</MenuItem>
       </Menu>
     </div>
