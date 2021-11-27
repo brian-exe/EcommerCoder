@@ -24,10 +24,10 @@ export default function Item({id, title, price,stock, img, handleAdd}){
         alt={title}
       />
          <Typography gutterBottom variant="h5" component="div">
-          {title} (Stock: {myStock})
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-            ${price}
+            ${price} - ({myStock} unidad/es disponible/s)
         </Typography>
       </CardContent>
         <Divider variant="middle" />
