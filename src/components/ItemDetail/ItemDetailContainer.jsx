@@ -1,12 +1,11 @@
-import {useState,useEffect} from 'react'
+import {useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import ItemDetail from './ItemDetail';
 import {useMockDataContext} from '../../contexts/MockDataProvider';
 
 
 export default function ItemDetailContainer(){
-    //const [currentItem, setCurrentItem] = useState({});
-    const {fetchItem, currentItem, setCurrentItem} = useMockDataContext();
+    const {fetchItem,  setCurrentItem} = useMockDataContext();
     const {itemId} = useParams();
 
     useEffect(()=> {

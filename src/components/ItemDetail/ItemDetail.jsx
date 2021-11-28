@@ -1,8 +1,6 @@
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@material-ui/core';
 import { CardMedia } from '@mui/material';
@@ -15,7 +13,7 @@ import {useCartContext} from '../../contexts/CartProvider';
 export default function ItemDetail(){
     const {currentItem} = useMockDataContext();
     const  {addItemToCart}  = useCartContext();
-    const {id, title, price,stock, img, desc} = currentItem;
+    const {title, price,stock, img, desc} = currentItem;
     const [myStock, setMyStock] = useState(0);
     const navigate = useNavigate();
     

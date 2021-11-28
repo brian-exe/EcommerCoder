@@ -5,7 +5,6 @@ import {useMockDataContext} from '../../contexts/MockDataProvider';
 
 export default function ItemList({filtroCategoria}){
     const [items, setItems] = useState([]);
-    const [categoriaActual, setCategoria] = useState(filtroCategoria);
 
     const {fetchItems} = useMockDataContext();
     

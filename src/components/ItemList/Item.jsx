@@ -13,7 +13,7 @@ import {useCartContext} from '../../contexts/CartProvider';
 export default function Item({item}){
     const {id, title, price,stock, img} = item;
     const [myStock, setMyStock] = useState(stock);
-    const  {addItemToCart, itemsInCart}  = useCartContext();
+    const  {addItemToCart}  = useCartContext();
 
     const itemOnAdd = function(count){
         //handleAdd(count, id)

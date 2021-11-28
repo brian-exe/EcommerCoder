@@ -1,6 +1,6 @@
 import {useCartContext} from '../../contexts/CartProvider';
 
-export default function(){
+export default function Cart(){
     const  {itemsInCart}  = useCartContext();
     return(
         <div>
