@@ -6,18 +6,32 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@material-ui/core';
 import { CardMedia } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import ItemCounter from '../ItemList/ItemCounter';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { useNavigate } from "react-router-dom";
+import {useMockDataContext} from '../../contexts/MockDataProvider';
+import {useCartContext} from '../../contexts/CartProvider';
 
-export default function ItemDetail({id, title, price,stock, img, desc}){
-    const [myStock, setMyStock] = useState(stock);
+export default function ItemDetail(){
+    const {currentItem} = useMockDataContext();
+    const  {addItemToCart}  = useCartContext();
+    const {id, title, price,stock, img, desc} = currentItem;
+    const [myStock, setMyStock] = useState(0);
+    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        setMyStock(stock);
+
+    },[currentItem]);
 
     const itemOnAdd = (count)=>{
-        //handleAdd(count, id)
+        addItemToCart(currentItem,count)
         setMyStock(myStock - count);
     };
+
+    const onBuy = ()=>{
+        navigate('/Cart')
+    }
     return(
         <>
         <Card  sx={{ display:'flex'}}>
@@ -38,22 +52,12 @@ export default function ItemDetail({id, title, price,stock, img, desc}){
                     ({myStock}) unidades disponibles
                 </Typography>
                 <Divider variant="middle" />
-                <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={12}>
-                        <CardActions>
-                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                <Button size="medium" >Comprar</Button>
-                            </ButtonGroup>
-                        </CardActions>
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                        <CardActions>
-                            <ItemCounter  stock={myStock} initial="0" onAdd={itemOnAdd}/>
-                        </CardActions>
-                    </Grid>
-                </Grid>
-                </Box>
+                <CardActions>
+
+                </CardActions>
+                <CardActions>
+                    <ItemCounter showBuyButton={true} onBuy={onBuy} stock={myStock} initial="0" onAdd={itemOnAdd}/>
+                </CardActions>
             </CardContent>
         </Card>
         <Card>

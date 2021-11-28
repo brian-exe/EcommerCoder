@@ -9,10 +9,10 @@ function CartWidget(){
     return (
         <IconButton
         size="large"
-        aria-label={itemsInCart + " items in cart"}
+        aria-label={itemsInCart.length + " items in cart"}
         color="inherit"
       >
-        <Badge badgeContent={itemsInCart || 0} color="error">
+        <Badge badgeContent={(itemsInCart.map(item => item.quantity).reduce((prev, curr) => prev + curr, 0)) || 0} color="error">
           <ShoppingCartIcon />
         </Badge>
       </IconButton>

@@ -3,9 +3,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
-const ItemCounter = ({stock,initial,onAdd}) => {
-    //console.log(stock, initial, onAdd);
+
+const ItemCounter = ({stock,initial,onAdd, onBuy, showBuyButton}) => {
     const [counter, setCounter] = useState(initial);
 
     function onIncreaseNumber (){
@@ -16,26 +19,45 @@ const ItemCounter = ({stock,initial,onAdd}) => {
         setCounter(Math.max(counter - 1, 0))
     }
 
-    const onAddToCart= ()=>{
+    const AddToCart= ()=>{
         if(counter > 0){
             onAdd(counter);
             setCounter(initial);
         }
     }
 
+    const BuyItem = ()=>{
+        AddToCart();
+        onBuy();
+    }
+
+    const renderBuyButton = ()=>{
+        if(showBuyButton){
+            return(
+                <Box>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                <Button sx={{width:300}} onClick={BuyItem} size="medium" >Comprar</Button>
+            </ButtonGroup>
+                </Box>)
+        }
+    }
     return(
         <>
+        <Stack
+            divider={<Divider orientation="vertical" flexItem />}
+            spacing={2}
+        >
+
+            {renderBuyButton()}
             <ButtonGroup variant="outlined" aria-label="outlined primary button group">
                 <Button size="small" onClick={onDecreaseNumber}>-</Button>
                 <Button size="small" >({counter}) unidad{counter > 1 ? "es" :""}</Button> 
                 <Button size="small" onClick={onIncreaseNumber}>+</Button>
-            </ButtonGroup>
-            <ButtonGroup>
-                <IconButton color="primary" aria-label="add to shopping cart">
-                    <AddShoppingCartIcon onClick={onAddToCart} />
+                <IconButton onClick={AddToCart} color="primary" aria-label="add to shopping cart">
+                       <AddShoppingCartIcon  />
                 </IconButton>
-                {/* <Button size="small" >Agregar ({counter}) item/s al carrito</Button>  */}
             </ButtonGroup>
+        </Stack>
         </>
     );
 }

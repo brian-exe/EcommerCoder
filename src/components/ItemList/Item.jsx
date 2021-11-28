@@ -8,12 +8,16 @@ import { CardMedia } from '@mui/material';
 import ItemCounter from './ItemCounter.jsx';
 import CardActionArea from '@mui/material/CardActionArea';
 import { NavLink } from 'react-router-dom';
+import {useCartContext} from '../../contexts/CartProvider';
 
-export default function Item({id, title, price,stock, img, handleAdd}){
+export default function Item({item}){
+    const {id, title, price,stock, img} = item;
     const [myStock, setMyStock] = useState(stock);
+    const  {addItemToCart, itemsInCart}  = useCartContext();
 
     const itemOnAdd = function(count){
-        handleAdd(count, id)
+        //handleAdd(count, id)
+        addItemToCart(item,count)
         setMyStock(myStock - count);
     };
     return(

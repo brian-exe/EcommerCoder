@@ -13,7 +13,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Sections from '../SectionsList/SectionsList';
-import CartWidget from '../CartWidget/CartWidget';
+import CartWidget from '../Cart/CartWidget';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,10 +56,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({itemsInCart}) {
+export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -119,7 +120,7 @@ export default function PrimarySearchAppBar({itemsInCart}) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-      <CartWidget itemsInCart={itemsInCart}/>
+      <CartWidget/>
         <p>Items in cart</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -150,13 +151,13 @@ export default function PrimarySearchAppBar({itemsInCart}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <Typography  to='/'
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            EcommerCoder
+            <Link style={{color:'white', textDecoration:'none'}}to='/'>EcommerCoder</Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -171,7 +172,7 @@ export default function PrimarySearchAppBar({itemsInCart}) {
             <Sections/>
             </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <CartWidget itemsInCart={itemsInCart} />
+          <CartWidget/>
             <IconButton
               size="large"
               edge="end"

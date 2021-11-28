@@ -1,37 +1,29 @@
 import Item from '../ItemList/Item'
 import {useEffect, useState } from 'react';
-import {useCartContext} from '../../contexts/CartProvider';
 import {useMockDataContext} from '../../contexts/MockDataProvider';
 
 
-export default function ItemList(){
+export default function ItemList({filtroCategoria}){
     const [items, setItems] = useState([]);
-    const  {itemsInCart, setItemsInCart}  = useCartContext();
+    const [categoriaActual, setCategoria] = useState(filtroCategoria);
+
     const {fetchItems} = useMockDataContext();
     
     useEffect(()=> {
         async function getItems(){
-            setItems( await fetchItems());
+            let obtainedItems = await fetchItems();
+            if(filtroCategoria && filtroCategoria != 0){
+                obtainedItems = obtainedItems.filter(i => i.categoria == filtroCategoria)
+            }
+            setItems(obtainedItems);
         }
         getItems();
-    },[]);
+    },[filtroCategoria]);
     
-    const handleAdd = function(itemCount, itemId){
-        let item =items.find(i => i.id === itemId);
-        if(item)
-          setItemsInCart(itemsInCart + itemCount)
-      };
 
     return(
         <div style={{display: "flex"}}>
-            {items.map( item => 
-                <Item 
-                key={item.id}
-                id={item.id}
-                title={item.title} 
-                price={item.price} 
-                stock={item.stock}
-                img={item.img}
-                handleAdd={handleAdd}/>)}
-        </div>);
+            {items.map( item => <Item key={item.id} item={item}/>)}
+        </div>
+        );
 }

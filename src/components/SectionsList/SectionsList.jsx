@@ -16,6 +16,12 @@ export default function FadeMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const categorias = [
+    {id:0, nombre:'Todos los productos'},
+    {id:1, nombre:'Laptopts'},
+    {id:2, nombre:'Accesorios'},
+    {id:3, nombre:'Monitores'},
+  ];
 
   return (
     <div>
@@ -28,7 +34,7 @@ export default function FadeMenu() {
         endIcon={<KeyboardArrowDownIcon />}
         onClick={handleClick}
       >
-        Index
+        Categorias
       </Button>
       <Menu
         id="fade-menu"
@@ -40,15 +46,10 @@ export default function FadeMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <Link to={`/`}>
-          <MenuItem onClick={handleClose}>Index</MenuItem>
-        </Link>
-        <Link to={`/ItemDetail/`}>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-        </Link>
-        <Link to={`/`}>
-          <MenuItem onClick={handleClose}>About</MenuItem>
-        </Link>
+        {categorias.map(cat => <MenuItem component={Link} to={'/categorias/'+ cat.id} onClick={handleClose}>{cat.nombre}</MenuItem>)}
+        {/* <MenuItem component={Link} to='/' onClick={handleClose}>Index</MenuItem>
+        <MenuItem component={Link} to='/ItemDetail/' onClick={handleClose}>My account</MenuItem>
+        <MenuItem component={Link} to='/' onClick={handleClose}>About</MenuItem> */}
       </Menu>
     </div>
   );

@@ -1,4 +1,4 @@
-import {createContext, useContext} from 'react'
+import {createContext, useContext, useState} from 'react'
 
  const MockDataContext = createContext();
 
@@ -10,7 +10,8 @@ import {createContext, useContext} from 'react'
             id:1,
             title:"Notebook Asus",
             price:"170.000",
-            stock:"5",
+            stock:5,
+            categoria:1,
             desc:`Eficiencia a tu alcance
             Su procesador Intel Core i5 de 4 núcleos, está pensado para aquellas personas generadoras y consumidoras de contenidos. Con esta unidad central, la máquina llevará a cabo varios procesos de forma simultánea, desde edición de videos hasta retoques fotográficos con programas profesionales.
 
@@ -25,7 +26,8 @@ import {createContext, useContext} from 'react'
             id:3,
             title:"Mouse Gamer",
             price:"1239,00",
-            stock:"4",
+            stock:4,
+            categoria:2,
             desc:"",
             img:"https://image.shutterstock.com/image-photo/blue-light-computer-gaming-mouse-600w-723052858.jpg"
         },
@@ -33,11 +35,13 @@ import {createContext, useContext} from 'react'
             id:2,
             title:"Monitor",
             price:"15.000",
-            stock:"3",
+            stock:3,
+            categoria:3,
             desc:"",
             img:"https://image.shutterstock.com/image-vector/realistic-computer-monitor-screen-isolated-600w-1363396547.jpg"
         },
     ];
+
     async function fetchItems(){
         return new Promise((resolve, reject) =>{
             setTimeout(()=>{
@@ -45,7 +49,6 @@ import {createContext, useContext} from 'react'
             },5000);
         });
     }
-
     async function fetchItem(id){
         return new Promise((resolve, reject) =>{
             setTimeout(()=>{
@@ -54,8 +57,9 @@ import {createContext, useContext} from 'react'
         });
     }
 
+    const [currentItem, setCurrentItem] = useState({});
      return (
-        <MockDataContext.Provider value={{fetchItems, fetchItem}}>
+        <MockDataContext.Provider value={{fetchItems, fetchItem, currentItem, setCurrentItem}}>
             {children}
         </MockDataContext.Provider>
      );
