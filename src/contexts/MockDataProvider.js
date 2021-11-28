@@ -46,14 +46,14 @@ import {createContext, useContext, useState} from 'react'
         return new Promise((resolve, reject) =>{
             setTimeout(()=>{
                 resolve(arrayItems)
-            },5000);
+            },3000);
         });
     }
     async function fetchItem(id){
         return new Promise((resolve, reject) =>{
             setTimeout(()=>{
                 resolve(arrayItems.find(item => item.id === Number(id)))
-            },5000);
+            },1000);
         });
     }
 
