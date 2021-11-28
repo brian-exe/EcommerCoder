@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import { Divider } from '@material-ui/core';
 import { CardMedia } from '@mui/material';
 import ItemCounter from './ItemCounter.jsx';
+import CardActionArea from '@mui/material/CardActionArea';
+import { NavLink } from 'react-router-dom';
 
 export default function Item({id, title, price,stock, img, handleAdd}){
     const [myStock, setMyStock] = useState(stock);
@@ -16,21 +18,20 @@ export default function Item({id, title, price,stock, img, handleAdd}){
     };
     return(
     <Card variant="outlined" sx={{ maxWidth: 345 }}>
+      <NavLink to={"/ItemDetail/"+id}>
+      <CardActionArea>
       <CardContent>
-      <CardMedia
-        component="img"
-        height="140"
-        image={img || "https://image.shutterstock.com/image-photo/no-photo-600w-403171300.jpg"}
-        alt={title}
-      />
-         <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-            ${price} - ({myStock} unidad/es disponible/s)
-        </Typography>
-      </CardContent>
-        <Divider variant="middle" />
+          <CardMedia
+            component="img"
+            height="140"
+            image={img || "https://image.shutterstock.com/image-photo/no-photo-600w-403171300.jpg"}
+            alt={title}/>
+          <Typography gutterBottom variant="h5" component="div">{title}</Typography>
+          <Typography variant="body2" color="text.secondary">${price} - ({myStock} unidad/es disponible/s)</Typography>
+        </CardContent>
+      </CardActionArea>
+      </NavLink>
+      <Divider variant="middle" />
       <Divider variant="middle" />
       <CardActions>
         <ItemCounter stock={myStock} initial="0" onAdd={itemOnAdd}/>

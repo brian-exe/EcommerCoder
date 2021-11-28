@@ -40,11 +40,15 @@ export default function FadeMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Index</MenuItem>
+        <Link to={`/`}>
+          <MenuItem onClick={handleClose}>Index</MenuItem>
+        </Link>
         <Link to={`/ItemDetail/`}>
           <MenuItem onClick={handleClose}>My account</MenuItem>
         </Link>
-        <MenuItem onClick={handleClose}>About</MenuItem>
+        <Link to={`/`}>
+          <MenuItem onClick={handleClose}>About</MenuItem>
+        </Link>
       </Menu>
     </div>
   );

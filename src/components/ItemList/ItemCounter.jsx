@@ -1,6 +1,8 @@
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import {useState} from 'react';
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const ItemCounter = ({stock,initial,onAdd}) => {
     //console.log(stock, initial, onAdd);
@@ -23,10 +25,16 @@ const ItemCounter = ({stock,initial,onAdd}) => {
 
     return(
         <>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button onClick={onDecreaseNumber}>-</Button>
-            <Button onClick={onAddToCart}>Agregar ({counter}) item/s al carrito</Button> 
-            <Button onClick={onIncreaseNumber}>+</Button>
+            <ButtonGroup variant="outlined" aria-label="outlined primary button group">
+                <Button size="small" onClick={onDecreaseNumber}>-</Button>
+                <Button size="small" >({counter}) unidad{counter > 1 ? "es" :""}</Button> 
+                <Button size="small" onClick={onIncreaseNumber}>+</Button>
+            </ButtonGroup>
+            <ButtonGroup>
+                <IconButton color="primary" aria-label="add to shopping cart">
+                    <AddShoppingCartIcon onClick={onAddToCart} />
+                </IconButton>
+                {/* <Button size="small" >Agregar ({counter}) item/s al carrito</Button>  */}
             </ButtonGroup>
         </>
     );
