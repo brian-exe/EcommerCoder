@@ -9,7 +9,7 @@ import {createContext, useContext, useState} from 'react'
         {
             id:1,
             title:"Notebook Asus",
-            price:"170.000",
+            price:170000,
             stock:5,
             categoria:1,
             desc:`Eficiencia a tu alcance
@@ -25,7 +25,7 @@ import {createContext, useContext, useState} from 'react'
         {
             id:3,
             title:"Mouse Gamer",
-            price:"1239,00",
+            price:1239,
             stock:4,
             categoria:2,
             desc:"",
@@ -34,7 +34,7 @@ import {createContext, useContext, useState} from 'react'
         {
             id:2,
             title:"Monitor",
-            price:"15.000",
+            price:15000,
             stock:3,
             categoria:3,
             desc:"",

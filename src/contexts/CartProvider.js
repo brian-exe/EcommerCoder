@@ -6,6 +6,7 @@ import {useState, createContext, useContext} from 'react'
 
  export default function CartProvider({children}){
     const [itemsInCart, setItemsInCart] = useState([]);
+    const [totalCart, setTotalCart] = useState(0);
 
     const addItemToCart = (item, quantity) =>{
         if(itemsInCart.some(i => i.id === item.id))
@@ -16,15 +17,15 @@ import {useState, createContext, useContext} from 'react'
             setItemsInCart(newItemsInCart);
         }
         else{
-            const newItemToCart = {id: item.id, quantity:quantity, title: item.title}
+            const newItemToCart = {id: item.id, quantity:quantity, title: item.title, img: item.img, price: item.price}
             let newItemsInCart = [...itemsInCart, newItemToCart];
             setItemsInCart(newItemsInCart);
         }
-        
+        setTotalCart(totalCart + item.price * quantity);
     }
 
      return (
-        <CartContext.Provider value={{itemsInCart, addItemToCart}}>
+        <CartContext.Provider value={{itemsInCart, addItemToCart, totalCart}}>
             {children}
         </CartContext.Provider>
      );

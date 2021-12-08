@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar/Navbar';
 import {Home} from './components/Home/Home';
-import Cart from './components/Cart/Cart';
+import CartDetailList from './components/Cart/CartDetailList';
 import ItemDetailContainer  from './components/ItemDetail/ItemDetailContainer';
 import './App.css';
 import CartProvider from './contexts/CartProvider';
@@ -18,7 +18,7 @@ function App() {
             <Route exact path="/" element={<Home/>} />
             <Route exact path="/categorias/:idCategoria" element={<ItemListContainer/>} />
             <Route exact path="/ItemDetail/:itemId" element={<ItemDetailContainer/>} />
-            <Route exact path="/Cart" element={<Cart/>} />
+            <Route exact path="/Cart" element={<CartDetailList/>} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
