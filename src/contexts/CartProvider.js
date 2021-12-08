@@ -21,11 +21,22 @@ import {useState, createContext, useContext} from 'react'
             let newItemsInCart = [...itemsInCart, newItemToCart];
             setItemsInCart(newItemsInCart);
         }
-        setTotalCart(totalCart + item.price * quantity);
+        setTotalCart(totalCart + (item.price * quantity));
     }
 
+    const deleteItemFromCart = (itemFromCart)=>{
+        if(itemsInCart.some(i => i.id === itemFromCart.id))
+        {
+            const index = itemsInCart.findIndex(i => i.id === itemFromCart.id);
+            let newItemsInCart = [...itemsInCart];
+            newItemsInCart.splice(index, 1);
+            setItemsInCart(newItemsInCart);
+            setTotalCart(totalCart - (itemFromCart.price * itemFromCart.quantity));
+        }
+    };
+
      return (
-        <CartContext.Provider value={{itemsInCart, addItemToCart, totalCart}}>
+        <CartContext.Provider value={{itemsInCart, addItemToCart, totalCart, deleteItemFromCart}}>
             {children}
         </CartContext.Provider>
      );

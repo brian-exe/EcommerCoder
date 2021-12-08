@@ -16,7 +16,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 
 export default function CartDetailList(){
-    const  {itemsInCart, totalCart}  = useCartContext();
+    const  {itemsInCart, totalCart, deleteItemFromCart}  = useCartContext();
 
     return(
         <div>
@@ -25,8 +25,8 @@ export default function CartDetailList(){
                 {itemsInCart.map(item => 
                     <>
                     <Divider />
-                    <ListItem alignItems="flex-start"                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
+                    <ListItem alignItems="flex-start" key={item.id} secondaryAction={
+                    <IconButton onClick={()=>{deleteItemFromCart(item)}} edge="end" aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                   }>
@@ -46,15 +46,13 @@ export default function CartDetailList(){
                                 Total ${item.quantity * item.price}
                             </Typography>
                         </React.Fragment>}/>
-                        
-
                     </ListItem>
                     </>)}
             <Divider>TOTAL CARRITO: {totalCart}</Divider>
             </List>
             <List>
                 <ListItem>
-                    <Button color="primary" variant="outlined"> 
+                    <Button key="buttonFinalizarCompra" color="primary" variant="outlined"> 
                         Finalizar Compra
                     </Button>
                 </ListItem>
