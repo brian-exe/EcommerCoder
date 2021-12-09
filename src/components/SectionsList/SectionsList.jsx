@@ -5,10 +5,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from "react-router-dom";
+import {getDocs, collection, getFirestore} from "firebase/firestore";
 
 
 export default function FadeMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [categorias, setCategorias] = React.useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,13 +18,17 @@ export default function FadeMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const categorias = [
-    {id:0, nombre:'Todos los productos'},
-    {id:1, nombre:'Laptopts'},
-    {id:2, nombre:'Accesorios'},
-    {id:3, nombre:'Monitores'},
-  ];
 
+  React.useEffect(()=> {
+    const db = getFirestore();
+    const categoriesCollection = collection(db, "categories");
+
+    getDocs(categoriesCollection).then((snapshot)=>{
+        if(snapshot.docs.length > 0){
+            setCategorias(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+        }
+    })
+},[]);
   return (
     <div>
       <Button
@@ -46,10 +52,7 @@ export default function FadeMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {categorias.map(cat => <MenuItem component={Link} to={'/categorias/'+ cat.id} onClick={handleClose}>{cat.nombre}</MenuItem>)}
-        {/* <MenuItem component={Link} to='/' onClick={handleClose}>Index</MenuItem>
-        <MenuItem component={Link} to='/ItemDetail/' onClick={handleClose}>My account</MenuItem>
-        <MenuItem component={Link} to='/' onClick={handleClose}>About</MenuItem> */}
+        {categorias.map(cat => <MenuItem key={cat.id} component={Link} to={'/categorias/'+ cat.id} onClick={handleClose}>{cat.description}</MenuItem>)}
       </Menu>
     </div>
   );

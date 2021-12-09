@@ -21,7 +21,7 @@ export default function Item({item}){
         setMyStock(myStock - count);
     };
     return(
-    <Card variant="outlined" sx={{ maxWidth: 345 }}>
+    <Card variant="outlined" sx={{ width: 200 }}>
       <NavLink to={"/ItemDetail/"+id}>
       <CardActionArea>
       <CardContent>
@@ -35,7 +35,6 @@ export default function Item({item}){
         </CardContent>
       </CardActionArea>
       </NavLink>
-      <Divider variant="middle" />
       <Divider variant="middle" />
       <CardActions>
         <ItemCounter stock={myStock} initial="0" onAdd={itemOnAdd}/>

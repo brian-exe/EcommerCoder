@@ -13,12 +13,12 @@ import {useCartContext} from '../../contexts/CartProvider';
 export default function ItemDetail(){
     const {currentItem} = useMockDataContext();
     const  {addItemToCart}  = useCartContext();
-    const {title, price,stock, img, desc} = currentItem;
+    const {title, price, img, desc} = currentItem;
     const [myStock, setMyStock] = useState(0);
     const navigate = useNavigate();
     
     useEffect(()=>{
-        setMyStock(stock);
+        setMyStock(currentItem.stock);
 
     },[currentItem]);
 

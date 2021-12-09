@@ -1,7 +1,6 @@
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
-import { useNavigate } from "react-router-dom";
 import {useCartContext} from '../../contexts/CartProvider';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -11,10 +10,8 @@ import Cart from './CartDetailList'
 
 function CartWidget(){
 
-  const navigate = useNavigate();
   function onCartClick(){
     setDrawerState(true);
-    //navigate('/Cart')
   }
 
   const [drawerState, setDrawerState] = useState(false);

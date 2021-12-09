@@ -1,7 +1,6 @@
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import {useState} from 'react';
-import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -53,9 +52,9 @@ const ItemCounter = ({stock,initial,onAdd, onBuy, showBuyButton}) => {
                 <Button size="small" onClick={onDecreaseNumber}>-</Button>
                 <Button size="small" >({counter}) unidad{counter > 1 ? "es" :""}</Button> 
                 <Button size="small" onClick={onIncreaseNumber}>+</Button>
-                <IconButton onClick={AddToCart} color="primary" aria-label="add to shopping cart">
+                <Button onClick={AddToCart} color="primary" aria-label="add to shopping cart">
                        <AddShoppingCartIcon  />
-                </IconButton>
+                </Button>
             </ButtonGroup>
         </Stack>
         </>

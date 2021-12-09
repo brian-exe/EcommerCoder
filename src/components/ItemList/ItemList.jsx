@@ -1,24 +1,31 @@
 import Item from '../ItemList/Item'
 import {useEffect, useState } from 'react';
-import {useMockDataContext} from '../../contexts/MockDataProvider';
-
+import {collection, getDocs, getFirestore, query, where} from "firebase/firestore";
 
 export default function ItemList({filtroCategoria}){
     const [items, setItems] = useState([]);
 
-    const {fetchItems} = useMockDataContext();
+    useEffect(() => {
+        const db = getFirestore();
     
-    useEffect(()=> {
-        async function getItems(){
-            let obtainedItems = await fetchItems();
-            if(filtroCategoria && filtroCategoria != 0){
-                obtainedItems = obtainedItems.filter(i => i.categoria == filtroCategoria)
-            }
-            setItems(obtainedItems);
+        const itemsCollectionRef = collection(db, "items");
+        let q = query(
+          itemsCollectionRef,
+          where("price", ">", 10)
+        );
+        console.log(filtroCategoria);
+        if(filtroCategoria && Number(filtroCategoria) !== 0){
+            q = query(
+                itemsCollectionRef,
+                where("category", "==", Number(filtroCategoria))
+              );
         }
-        getItems();
-    },[filtroCategoria]);
     
+        getDocs(q).then((snapshot) => {
+            console.log(snapshot.docs);
+            setItems(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        });
+      }, [filtroCategoria]);
 
     return(
         <div style={{display: "flex"}}>
