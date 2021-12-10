@@ -21,13 +21,13 @@ export default function Item({item}){
         setMyStock(myStock - count);
     };
     return(
-    <Card variant="outlined" sx={{ width: 200 }}>
+    <Card variant="outlined" sx = {{border:1, margin:1, padding : 1, display:"flex", flexDirection:"column", maxWidth: 300, minWidth: 300, borderRadius:4}}>
       <NavLink to={"/ItemDetail/"+id}>
       <CardActionArea>
       <CardContent>
           <CardMedia
             component="img"
-            height="140"
+            sx={{maxHeight: 250, maxWidth:250}}
             image={img || "https://image.shutterstock.com/image-photo/no-photo-600w-403171300.jpg"}
             alt={title}/>
           <Typography gutterBottom variant="h5" component="div">{title}</Typography>

@@ -1,6 +1,7 @@
 import Item from '../ItemList/Item'
 import {useEffect, useState } from 'react';
 import {collection, getDocs, getFirestore, query, where} from "firebase/firestore";
+import Box from '@mui/material/Box';
 
 export default function ItemList({filtroCategoria}){
     const [items, setItems] = useState([]);
@@ -28,8 +29,8 @@ export default function ItemList({filtroCategoria}){
       }, [filtroCategoria]);
 
     return(
-        <div style={{display: "flex"}}>
+      <Box Wrap sx={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
             {items.map( item => <Item key={item.id} item={item}/>)}
-        </div>
+        </Box>
         );
 }

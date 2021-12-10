@@ -18,6 +18,7 @@ import {getDoc, doc, getFirestore} from "firebase/firestore";
                     setCurrentItem({id: snapshot.id, ...snapshot.data()})
                 }
             })
+            return () => setCurrentItem({});
         },[]);
     
     return(
