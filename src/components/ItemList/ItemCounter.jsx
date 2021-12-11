@@ -34,9 +34,9 @@ const ItemCounter = ({stock,initial,onAdd, onBuy, showBuyButton}) => {
         if(showBuyButton){
             return(
                 <Box>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button sx={{width:300}} onClick={BuyItem} size="medium" >Comprar</Button>
-            </ButtonGroup>
+                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                        <Button disabled={counter === 0} sx={{width:300}} onClick={BuyItem} size="medium" >Comprar ({counter})</Button>
+                    </ButtonGroup>
                 </Box>)
         }
     }

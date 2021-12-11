@@ -2,8 +2,10 @@ import Item from '../ItemList/Item'
 import {useEffect, useState } from 'react';
 import {collection, getDocs, getFirestore, query, where} from "firebase/firestore";
 import Box from '@mui/material/Box';
+import {useParams} from 'react-router-dom';
 
-export default function ItemList({filtroCategoria}){
+export default function ItemList(){
+    const {idCategoria} = useParams();
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -14,19 +16,17 @@ export default function ItemList({filtroCategoria}){
           itemsCollectionRef,
           where("price", ">", 10)
         );
-        console.log(filtroCategoria);
-        if(filtroCategoria && Number(filtroCategoria) !== 0){
+        if(idCategoria && Number(idCategoria) !== 0){
             q = query(
                 itemsCollectionRef,
-                where("category", "==", Number(filtroCategoria))
+                where("category", "==", Number(idCategoria))
               );
         }
     
         getDocs(q).then((snapshot) => {
-            console.log(snapshot.docs);
             setItems(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
         });
-      }, [filtroCategoria]);
+      }, [idCategoria]);
 
     return(
       <Box Wrap sx={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>

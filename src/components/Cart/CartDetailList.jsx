@@ -3,17 +3,19 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import * as React from 'react';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import CartItem from './CartItem'
+import { useNavigate } from "react-router-dom";
 
 
 export default function CartDetailList(){
     const  {itemsInCart, deleteItemFromCart}  = useCartContext();
+    const navigate = useNavigate();
+
+    const finishOrder= ()=>{
+        navigate('/Order')
+    }
 
     if(itemsInCart.length === 0)
         return(
@@ -26,36 +28,12 @@ export default function CartDetailList(){
             <Typography variant="h6" component="div" gutterBottom>Elementos en el carrito</Typography>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {itemsInCart.map(item => 
-                    <>
-                    <Divider />
-                    <ListItem alignItems="flex-start" key={item.id} secondaryAction={
-                    <IconButton onClick={()=>{deleteItemFromCart(item)}} edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  }>
-                        <ListItemAvatar>
-                            <Avatar alt={item.title} src={item.img} />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={item.title + " X (" + item.quantity + ")"}
-                            secondary={
-                        <React.Fragment>
-                            <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                Total ${item.quantity * item.price}
-                            </Typography>
-                        </React.Fragment>}/>
-                    </ListItem>
-                    </>)}
-            <Divider>TOTAL CARRITO: {itemsInCart.map(item => item.quantity * item.price).reduce((prev, curr) => prev + curr, 0)}</Divider>
+                    <CartItem key={item.id} item={item} onDelete={deleteItemFromCart}/>)}
+            <Divider>TOTAL CARRITO: ${itemsInCart.map(item => item.quantity * item.price).reduce((prev, curr) => prev + curr, 0)}</Divider>
             </List>
             <List>
                 <ListItem>
-                    <Button key="buttonFinalizarCompra" color="primary" variant="outlined"> 
+                    <Button sx={{width:'100%'}} onClick={finishOrder} key="buttonFinalizarCompra" color="primary" variant="contained"> 
                         Finalizar Compra
                     </Button>
                 </ListItem>

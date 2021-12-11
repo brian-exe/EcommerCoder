@@ -1,7 +1,7 @@
-import ItemListContainer from '../ItemList/ItemListContainer';
+import ItemList from '../ItemList/ItemList';
 
  export const Home = ()=>{
     return(
-        <ItemListContainer/>
+        <ItemList/>
     );
 }

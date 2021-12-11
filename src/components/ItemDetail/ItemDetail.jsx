@@ -9,14 +9,29 @@ import ItemCounter from '../ItemList/ItemCounter';
 import { useNavigate } from "react-router-dom";
 import {useMockDataContext} from '../../contexts/MockDataProvider';
 import {useCartContext} from '../../contexts/CartProvider';
+import {getDoc, doc, getFirestore} from "firebase/firestore";
+import {useParams} from 'react-router-dom'
 
 export default function ItemDetail(){
-    const {currentItem} = useMockDataContext();
-    const  {addItemToCart}  = useCartContext();
+    const {currentItem,setCurrentItem} = useMockDataContext();
+    const {addItemToCart}  = useCartContext();
     const {title, price, img, desc} = currentItem;
     const [myStock, setMyStock] = useState(0);
     const navigate = useNavigate();
+    const {itemId} = useParams();
     
+    useEffect(()=> {
+        const db = getFirestore();
+        const itemRef = doc(db, "items", itemId);
+
+        getDoc(itemRef).then((snapshot)=>{
+            if(snapshot.exists()){
+                setCurrentItem({id: snapshot.id, ...snapshot.data()})
+            }
+        })
+        return () => setCurrentItem({});
+    },[itemId]);
+
     useEffect(()=>{
         setMyStock(currentItem.stock);
 
@@ -28,7 +43,7 @@ export default function ItemDetail(){
     };
 
     const onBuy = ()=>{
-        navigate('/Cart')
+        navigate('/Order')
     }
     return(
         <>

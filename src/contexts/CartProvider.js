@@ -20,8 +20,12 @@ import {useState, createContext, useContext} from 'react'
         if(element) return setItemsInCart([...itemsInCart.filter(i => i.id !== itemFromCart.id)])
     };
 
+    const cleanCart = ()=>{
+        setItemsInCart([]);
+    }
+
      return (
-        <CartContext.Provider value={{itemsInCart, addItemToCart, deleteItemFromCart}}>
+        <CartContext.Provider value={{itemsInCart, cleanCart, addItemToCart, deleteItemFromCart}}>
             {children}
         </CartContext.Provider>
      );
