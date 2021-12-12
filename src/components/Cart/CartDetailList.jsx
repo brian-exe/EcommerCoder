@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CartItem from './CartItem'
 import { useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
 
 
 export default function CartDetailList(){
@@ -24,20 +25,18 @@ export default function CartDetailList(){
             </div>
         );
     return(
-        <div>
+        <Box sx={{ margin:1, padding : 1}}>
             <Typography variant="h6" component="div" gutterBottom>Elementos en el carrito</Typography>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {itemsInCart.map(item => 
                     <CartItem key={item.id} item={item} onDelete={deleteItemFromCart}/>)}
             <Divider>TOTAL CARRITO: ${itemsInCart.map(item => item.quantity * item.price).reduce((prev, curr) => prev + curr, 0)}</Divider>
             </List>
-            <List>
-                <ListItem>
-                    <Button sx={{width:'100%'}} onClick={finishOrder} key="buttonFinalizarCompra" color="primary" variant="contained"> 
-                        Finalizar Compra
-                    </Button>
-                </ListItem>
-            </List>
-        </div>
+            <Box sx={{ margin:1, padding : 1}}>
+                <Button sx={{width:'100%'}} onClick={finishOrder} key="buttonFinalizarCompra" color="primary" variant="contained"> 
+                    Finalizar Compra
+                </Button>
+            </Box>
+        </Box>
     );
 }

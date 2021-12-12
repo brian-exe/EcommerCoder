@@ -12,13 +12,10 @@ import {useCartContext} from '../../contexts/CartProvider';
 
 export default function Item({item}){
     const {id, title, price,stock, img} = item;
-    const [myStock, setMyStock] = useState(stock);
-    const  {addItemToCart}  = useCartContext();
+    const  {addItemToCart, quantityInCartForItem}  = useCartContext();
 
     const itemOnAdd = function(count){
-        //handleAdd(count, id)
         addItemToCart(item,count)
-        setMyStock(myStock - count);
     };
     return(
     <Card variant="outlined" sx = {{border:1, margin:1, padding : 1, display:"flex", flexDirection:"column", maxWidth: 300, minWidth: 300, borderRadius:4}}>
@@ -31,13 +28,14 @@ export default function Item({item}){
             image={img || "https://image.shutterstock.com/image-photo/no-photo-600w-403171300.jpg"}
             alt={title}/>
           <Typography gutterBottom variant="h5" component="div">{title}</Typography>
-          <Typography variant="body2" color="text.secondary">${price} - ({myStock} unidad/es disponible/s)</Typography>
+          <Typography variant="body2" color="text.secondary">${price} - ({stock} unidad/es disponible/s)</Typography>
+          <Typography variant="body3" color="text.secondary">- {quantityInCartForItem(id)} en carrito -</Typography>
         </CardContent>
       </CardActionArea>
       </NavLink>
       <Divider variant="middle" />
       <CardActions>
-        <ItemCounter stock={myStock} initial="0" onAdd={itemOnAdd}/>
+        <ItemCounter stock={stock - quantityInCartForItem(id)} initial="0" onAdd={itemOnAdd}/>
       </CardActions>
     </Card>
     );

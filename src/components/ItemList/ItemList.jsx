@@ -12,10 +12,8 @@ export default function ItemList(){
         const db = getFirestore();
     
         const itemsCollectionRef = collection(db, "items");
-        let q = query(
-          itemsCollectionRef,
-          where("price", ">", 10)
-        );
+        let q = query(itemsCollectionRef);
+        
         if(idCategoria && Number(idCategoria) !== 0){
             q = query(
                 itemsCollectionRef,

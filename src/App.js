@@ -4,13 +4,13 @@ import Order from './components/Order/Order';
 import ItemDetail  from './components/ItemDetail/ItemDetail';
 import './App.css';
 import CartProvider from './contexts/CartProvider';
-import MockDataProvider from './contexts/MockDataProvider'
+import SessionDataProvider from './contexts/SessionDataProvider'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ItemList from './components/ItemList/ItemList';
 
 function App() {
   return (
-    <MockDataProvider>
+    <SessionDataProvider>
       <CartProvider >
         <BrowserRouter>
           <Navbar></Navbar>
@@ -22,7 +22,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
-    </MockDataProvider>
+    </SessionDataProvider>
   );
 }
 

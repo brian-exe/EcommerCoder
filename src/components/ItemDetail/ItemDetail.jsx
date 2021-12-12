@@ -7,15 +7,15 @@ import { CardMedia } from '@mui/material';
 import { useState, useEffect} from 'react';
 import ItemCounter from '../ItemList/ItemCounter';
 import { useNavigate } from "react-router-dom";
-import {useMockDataContext} from '../../contexts/MockDataProvider';
+import {useSessionDataContext} from '../../contexts/SessionDataProvider';
 import {useCartContext} from '../../contexts/CartProvider';
 import {getDoc, doc, getFirestore} from "firebase/firestore";
 import {useParams} from 'react-router-dom'
 
 export default function ItemDetail(){
-    const {currentItem,setCurrentItem} = useMockDataContext();
-    const {addItemToCart}  = useCartContext();
-    const {title, price, img, desc} = currentItem;
+    const {currentItem,setCurrentItem} = useSessionDataContext();
+    const {addItemToCart, quantityInCartForItem}  = useCartContext();
+    const {id, title, price, img, desc, stock} = currentItem;
     const [myStock, setMyStock] = useState(0);
     const navigate = useNavigate();
     const {itemId} = useParams();
@@ -32,14 +32,8 @@ export default function ItemDetail(){
         return () => setCurrentItem({});
     },[itemId]);
 
-    useEffect(()=>{
-        setMyStock(currentItem.stock);
-
-    },[currentItem]);
-
     const itemOnAdd = (count)=>{
         addItemToCart(currentItem,count)
-        setMyStock(myStock - count);
     };
 
     const onBuy = ()=>{
@@ -62,14 +56,11 @@ export default function ItemDetail(){
                 {title} (${price})
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    ({myStock}) unidades disponibles
+                    ({stock}) unidades disponibles - {quantityInCartForItem(id)} en carrito
                 </Typography>
                 <Divider variant="middle" />
                 <CardActions>
-
-                </CardActions>
-                <CardActions>
-                    <ItemCounter showBuyButton={true} onBuy={onBuy} stock={myStock} initial="0" onAdd={itemOnAdd}/>
+                    <ItemCounter showBuyButton={true} onBuy={onBuy} stock={stock- quantityInCartForItem(id)} initial="0" onAdd={itemOnAdd}/>
                 </CardActions>
             </CardContent>
         </Card>
