@@ -4,29 +4,25 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@material-ui/core';
 import { CardMedia } from '@mui/material';
-import { useState, useEffect} from 'react';
+import { useEffect} from 'react';
 import ItemCounter from '../ItemList/ItemCounter';
 import { useNavigate } from "react-router-dom";
 import {useSessionDataContext} from '../../contexts/SessionDataProvider';
 import {useCartContext} from '../../contexts/CartProvider';
-import {getDoc, doc, getFirestore} from "firebase/firestore";
 import {useParams} from 'react-router-dom'
+import {getItem} from '../../DataAccess/ItemsService';
 
 export default function ItemDetail(){
     const {currentItem,setCurrentItem} = useSessionDataContext();
     const {addItemToCart, quantityInCartForItem}  = useCartContext();
     const {id, title, price, img, desc, stock} = currentItem;
-    const [myStock, setMyStock] = useState(0);
     const navigate = useNavigate();
     const {itemId} = useParams();
     
     useEffect(()=> {
-        const db = getFirestore();
-        const itemRef = doc(db, "items", itemId);
-
-        getDoc(itemRef).then((snapshot)=>{
-            if(snapshot.exists()){
-                setCurrentItem({id: snapshot.id, ...snapshot.data()})
+        getItem(itemId).then((item)=>{
+            if(item.exists()){
+                setCurrentItem({id: item.id, ...item.data()})
             }
         })
         return () => setCurrentItem({});

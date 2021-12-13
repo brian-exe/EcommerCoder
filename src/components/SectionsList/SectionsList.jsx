@@ -5,7 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from "react-router-dom";
-import {getDocs, collection, getFirestore} from "firebase/firestore";
+import {getCategories} from '../../DataAccess/CategoriesService';
+
 
 
 export default function FadeMenu() {
@@ -20,15 +21,13 @@ export default function FadeMenu() {
   };
 
   React.useEffect(()=> {
-    const db = getFirestore();
-    const categoriesCollection = collection(db, "categories");
-
-    getDocs(categoriesCollection).then((snapshot)=>{
+    getCategories().then((snapshot)=>{
         if(snapshot.docs.length > 0){
             setCategorias(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
         }
     })
-},[]);
+  },[]);
+
   return (
     <div>
       <Button

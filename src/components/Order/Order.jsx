@@ -14,7 +14,8 @@ import DialogContent from '@mui/material/DialogContent';
 import Alert from '@mui/material/Alert';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useState} from 'react';
-import {collection,doc, getFirestore, writeBatch, addDoc} from 'firebase/firestore'
+import {addOrder} from '../../DataAccess/OrdersService';
+import {updateStockForItems} from '../../DataAccess/ItemsService';
 
 export default function Order(){
     const  {itemsInCart, cleanCart, deleteItemFromCart}  = useCartContext();
@@ -34,6 +35,7 @@ export default function Order(){
     function checkValidMail(){
         setValidMail(/^[^@]+@[^@]+\.[^@]+$/.test(mail))
     }
+
     function onInputChange(evt, inputName) {
         let element = inputsData.find((i) => i.key === inputName);
         if(!element) return;
@@ -52,7 +54,7 @@ export default function Order(){
                 mail
             },
             items:[{
-                items: itemsInCart.map(i=>{ return { id: i.id, price: i.price, quantity: i.quantity}}),
+                items: itemsInCart.map(({id, price, quantity})=>({id,price, quantity})),
             }],
             total: itemsInCart.map(item => item.quantity * item.price).reduce((prev, curr) => prev + curr, 0)
         }
@@ -65,21 +67,11 @@ export default function Order(){
     }
 
     const sendOrder = ()=>{
-        const db =  getFirestore();
         let orderToCreate = createOrder();
-        const ordersCollection = collection(db, 'orders');
 
-        addDoc(ordersCollection, orderToCreate).then(({id}) => {
+        addOrder(orderToCreate).then(({id}) => {
             setOrder({...orderToCreate, id: id});
-            console.log(order);
-            const batch = writeBatch(db);
-
-            itemsInCart.forEach((item) => {
-                const ref =  doc(db, 'items', item.id);
-                batch.update(ref, {stock: item.stock - item.quantity});
-            })
-
-            batch.commit();
+            updateStockForItems(itemsInCart).then(resp => {}).catch(err => console.log(err));
             setOpenDialog(true);
         });
     }

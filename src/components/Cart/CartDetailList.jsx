@@ -1,6 +1,5 @@
 import {useCartContext} from '../../contexts/CartProvider';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
