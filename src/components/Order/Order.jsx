@@ -17,23 +17,30 @@ import {useState} from 'react';
 import {collection,doc, getFirestore, writeBatch, addDoc} from 'firebase/firestore'
 
 export default function Order(){
-    const  {itemsInCart, cleanCart,deleteItemFromCart}  = useCartContext();
-
+    const  {itemsInCart, cleanCart, deleteItemFromCart}  = useCartContext();
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [mail, setMail] = useState('');
+    const [validMail, setValidMail] = useState(true);
     const [openDialog, setOpenDialog] = useState(false);
     const [order, setOrder] = useState({});
 
     const inputsData = [
-        { key: "name", label:'Nombre', type:'text', setter: setName },
-        { key: "phone", label:'Teléfono', type:'number', setter: setPhone },
-        { key: "mail", label:'Mail', type:'email', setter: setMail }
+        { key: "name", setter: setName },
+        { key: "phone", setter: setPhone },
+        { key: "mail", setter: setMail, validityChecker: checkValidMail}
       ];
 
+    function checkValidMail(){
+        setValidMail(/^[^@]+@[^@]+\.[^@]+$/.test(mail))
+    }
     function onInputChange(evt, inputName) {
         let element = inputsData.find((i) => i.key === inputName);
+        if(!element) return;
         element.setter(evt.target.value);
+        console.log(evt.target.validity.valid);
+        if(element.validityChecker)
+            element.validityChecker()
     }
 
     function createOrder ()
@@ -51,6 +58,12 @@ export default function Order(){
         }
     };
 
+    function cleanForm(){
+        setName("");
+        setMail("");
+        setPhone("");
+    }
+
     const sendOrder = ()=>{
         const db =  getFirestore();
         let orderToCreate = createOrder();
@@ -58,6 +71,7 @@ export default function Order(){
 
         addDoc(ordersCollection, orderToCreate).then(({id}) => {
             setOrder({...orderToCreate, id: id});
+            console.log(order);
             const batch = writeBatch(db);
 
             itemsInCart.forEach((item) => {
@@ -72,15 +86,16 @@ export default function Order(){
     
     const handleClose = () =>{
         setOpenDialog(false);
-        cleanCart();
         setOrder({});
+        cleanForm();
+        cleanCart();
     }
 
     return(
         <Box Wrap sx={{justifyContent:'center', width:'100%'}}>
             <Typography sx={{justifyContent:"center"}} variant="h5" gutterBottom>Detalle de su orden</Typography>
-            <Box Wrap sx={{display:"flex", flexWrap:"wrap", maxWidth:'50%'}}>
-                <Accordion>
+            <Box sx={{display:"flex", maxWidth:'50%'}}>
+                <Accordion sx={{width:'100%'}}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -91,7 +106,7 @@ export default function Order(){
                     <AccordionDetails>
                         <Box Wrap sx={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
                             {itemsInCart.map(item =>  
-                                <CartItem key={item.id} item={item} onDelete={deleteItemFromCart}/>
+                                <CartItem value={item.value} key={item.id} item={item} onDelete={deleteItemFromCart}/>
                             )}
                         </Box>
                     </AccordionDetails>
@@ -101,9 +116,34 @@ export default function Order(){
                 <Box component="form"
                     noValidate
                     autoComplete="off">
-                    {inputsData.map((i) => (
-                        <TextField key={i.key} type={i.type} onChange={(evt) => onInputChange(evt, i.key)} sx={{width:'100%'}} id="filled-basic" label={i.label} variant="filled" />
-                    ))}
+                    <TextField 
+                        value={name} 
+                        required 
+                        type="text" 
+                        onChange={(evt) => onInputChange(evt, "name")} 
+                        sx={{width:'100%'}} 
+                        id="name" 
+                        label="Nombre" 
+                        variant="filled" />
+                    <TextField 
+                        value={phone} 
+                        required type="number" 
+                        onChange={(evt) => onInputChange(evt, "phone")} 
+                        sx={{width:'100%'}} 
+                        id="phone" 
+                        label="Teléfono" 
+                        variant="filled" />
+                    <TextField 
+                        error={!validMail} 
+                        value={mail} 
+                        required 
+                        type="mail" 
+                        onChange={(evt) => onInputChange(evt, "mail")} 
+                        sx={{width:'100%'}} 
+                        id="mail" 
+                        label="Mail" 
+                        variant="filled" 
+                        helperText={!validMail && "Ingrese un mail valido."}/>
                     <Button disabled={!(phone && mail && name && itemsInCart.length > 0)} onClick={sendOrder} variant='contained' sx={{width:'100%'}} size="medium" >Comprar</Button>
                 </Box>
             </Box>
